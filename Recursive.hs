@@ -13,3 +13,10 @@ power _ 0 = 1
 power 0 _ = 1
 power n m = n * power n (m-1)
 
+myReplicate :: Int -> a -> [a]
+myReplicate n a
+  | n <= 0 = []
+  | otherwise = a : myReplicate (n - 1) a
+
+myIndex _ [] = error "empty list"
+myIndex n [x:xs]
