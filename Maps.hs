@@ -40,3 +40,14 @@ tupleToString (n, c) = replicate n c
 
 decodeRLE :: [(Int, Char)] -> String
 decodeRLE = concat . myMap tupleToString
+
+
+myLast :: [a] -> a
+myLast [] = error "empty list"
+myLast [x] = x
+myLast (x:y:xs) = myLast (y:xs)
+
+myDropLast :: [a] -> [a]
+myDropLast [] = []
+myDropLast [a] = []
+myDropLast xs = reverse $ tail $ reverse xs
