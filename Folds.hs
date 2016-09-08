@@ -45,3 +45,28 @@ myMinimumR = foldr1 min
 myReverseR, myReverseL :: [a] -> [a]
 myReverseR = foldr (\ x xs -> xs ++ [x]) []
 myReverseL = foldl (\ xs x -> x : xs) [] -- more efficient
+
+
+-- implement scanl and scanr with recursive and foldl/foldr
+myScanlRecursive :: (a -> b -> a) -> a -> [b] -> [a]
+myScanlRecursive f b [] = [b]
+myScanlRecursive f b (x:xs) = b : myScanlRecursive f (f b x) xs
+
+myScanlFoldl f b xs = foldl f' [b] xs
+  where f' accs x = accs ++ (f (last accs) x) : []
+
+myScanrRecursive :: (a -> b -> b) -> b -> [a] -> [b]
+myScanrRecursive f b [] = [b]
+myScanrRecursive f b (x:xs) = ( f x (head prev)) : prev
+  where prev = myScanrRecursive f b xs
+
+myScanrFoldr f b xs = foldr f' [b] xs
+  where f' x accs = f x (head accs) : accs
+
+-- implement factList with scanl1
+factList :: Integer -> [Integer]
+factList n = scanl1 (*) [1..n]
+
+
+returnDivisible :: Int -> [Int] -> [Int]
+returnDivisible n ns = [x | x <- ns, (mod x n) == 0]
